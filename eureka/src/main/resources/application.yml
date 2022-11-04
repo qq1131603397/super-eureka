@@ -1,0 +1,16 @@
+server:
+  port: 28888 #服务注册中心的端口号
+spring:
+  application:
+    name: eureka
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+    registerWithEureka: false #是否往服务注册中心注册自己
+    fetchRegistry: false #是否检索服务
+    serviceUrl: #指定服务注册中心的地址
+      defaultZone: http://localhost:${server.port}/eureka/
+  server:
+    enable-self-preservation: false #eurka 自我保护机制.
+    eviction-interval-timer-in-ms: 5000 #eurka 清理不可用的服务列表 单位:毫秒

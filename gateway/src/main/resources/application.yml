@@ -1,0 +1,41 @@
+server:
+  port: 20001
+
+# 服务名称
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          #通过服务名称访问服务，并开启小写
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: business
+          uri: lb://business
+          predicates:
+            - Path=/business/**
+        - id: es
+          uri: lb://es
+          predicates:
+            - Path=/es/**
+        - id: redis
+          uri: lb://redis
+          predicates:
+            - Path=/redis/**
+
+# 配置eureka
+eureka:
+  client:
+    service-url:
+      # defaultZone 默认地点
+      # 如果用云服务， 可以配置不同的地点，自己配置必须指定
+      defaultZone: http://localhost:28888/eureka
+
+# 配置Gateway日志等级，输出转发细节信息
+logging:
+  level:
+    org.springframework.cloud.gateway: debug
+    com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver: WARN
